@@ -1,8 +1,8 @@
 import streamlit as st
-from PIL import Image
+from PIL import ImageEnhance, ImageFilter, Image
 import io
 
-st.title("Image Resizer Tool")
+st.title("Image Resizer Tool v2")
 
 uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
@@ -22,6 +22,13 @@ if uploaded_file:
         size = (4608, 3072)
 
     img = img.resize(size, Image.Resampling.LANCZOS)
+
+    # Improve clarity
+    img = img.filter(ImageFilter.UnsharpMask(radius=2, percent=150, threshold=3))
+
+    # Slight color/contrast pop
+    img = ImageEnhance.Color(img).enhance(1.05)
+    img = ImageEnhance.Contrast(img).enhance(1.1)
 
     buffer = io.BytesIO()
     img.save(buffer, format="PNG", dpi=(300, 300))
