@@ -34,7 +34,7 @@ if uploaded_file:
     img.save(buffer, format="PNG", dpi=(300, 300))
     buffer.seek(0)
 
-    st.image(img, caption="Preview", use_column_width=True)
+    st.image(img, caption="Preview", width="stretch")
 
     filename = st.text_input("Enter file name (without extension)", value="processed")
 
